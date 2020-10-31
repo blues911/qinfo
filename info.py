@@ -3,6 +3,9 @@ import time
 import subprocess
 
 
+# TODO: cache lsb
+# TODO: improve code logic in cpu, mem, swp, hdd
+
 def __bytes_to(bytes, to, b_size = 1024):
     a = {'k': 1, 'm': 2, 'g': 3, 't': 4, 'p': 5, 'e': 6}
     r = float(bytes)

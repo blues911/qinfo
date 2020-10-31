@@ -6,6 +6,8 @@ import curses
 import info
 
 
+# TODO: check small screen size
+# TODO: remove after testing
 # print(info.cpu())
 # print(info.mem())
 # print(info.swp())
@@ -14,7 +16,7 @@ import info
 # print(info.lsb())
 # sys.exit(0)
 
-def init_unit(stdscr, c_y, c_x, u_data, u_title, u_type):
+def add_unit(stdscr, c_y, c_x, u_data, u_title, u_type):
     # Example:
     # unit1  [+++----------------------] 15%  1.8Gb/11.7Gb
     # unit2  [-------------------------] 0%   0Gb/22.9Gb
@@ -109,7 +111,7 @@ def main(stdscr):
         i = c_y + 1
         for item in cpu:
             c_y, c_x = i, 0
-            init_unit(stdscr, c_y, c_x, item, item['name'], 'cpu')
+            add_unit(stdscr, c_y, c_x, item, item['name'], 'cpu')
             i = i + 1
 
         # ram
@@ -119,11 +121,11 @@ def main(stdscr):
 
         c_y, c_x = c_y + 1, 0
         mem = info.mem()
-        init_unit(stdscr, c_y, c_x, mem, 'memory', 'ram')
+        add_unit(stdscr, c_y, c_x, mem, 'memory', 'ram')
 
         c_y, c_x = c_y + 1, 0
         swp = info.swp()
-        init_unit(stdscr, c_y, c_x, swp, 'swap', 'ram')
+        add_unit(stdscr, c_y, c_x, swp, 'swap', 'ram')
 
         # hdd
         # ----------------------------------------------------------------------
@@ -134,7 +136,7 @@ def main(stdscr):
         j = c_y + 1
         for item in hdd:
             c_y, c_x = j, 0
-            init_unit(stdscr, c_y, c_x, item, item['name'], 'hdd')
+            add_unit(stdscr, c_y, c_x, item, item['name'], 'hdd')
             j = j + 1
 
         # bottom info
