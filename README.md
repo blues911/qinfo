@@ -4,4 +4,4 @@ in development....
 
 ## Example
 
-![](example.gif)
+![](example.jpg)
