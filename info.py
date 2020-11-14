@@ -36,7 +36,12 @@ def cpu():
 
         idle, total = line[3], sum(line)
         idle_delta, total_delta = idle - old_info[i][0], total - old_info[i][1]
-        utilisation = 100.0 * (1.0 - idle_delta / total_delta)
+        try:
+            utilisation = 100.0 * (1.0 - idle_delta / total_delta)
+        except:
+            # Traceback [ZeroDivisionError: float division by zero].
+            # It happens if try to change screen size rapidly.
+            utilisation = 0.0
 
         r = {}
         r['name'] = 'core' + str(i + 1)

@@ -6,8 +6,6 @@ import curses
 import info
 
 
-# TODO: check small screen size
-
 def add_unit(stdscr, c_y, c_x, u_data, u_title, u_type):
     # Example:
     # unit1  [+++----------------------] 15%  1.8Gb/11.7Gb
@@ -83,61 +81,68 @@ def main(stdscr):
         stdscr.clear()
         height, width = stdscr.getmaxyx()
 
-        # release & kernel
-        # ----------------------------------------------------------------------
-        c_y, c_x = 0, 0
-        lsb = info.lsb()
-        stdscr.addstr(c_y, c_x, lsb, curses.color_pair(2))
+        if height < 20 or width < 60:
+            # catch small screen
+            title = 'TERMINAL TO SAMLL'
+            c_y, c_x = int((height // 2) - 1), int((width // 2) - (len(title) // 2) - len(title) % 2)
+            stdscr.addstr(c_y, c_x, title, curses.color_pair(2))
 
-        # uptime & load average
-        # ----------------------------------------------------------------------
-        c_y, c_x = 1, 0
-        upt = info.upt()
-        stdscr.addstr(c_y, c_x, upt, curses.color_pair(3))
+        else:
+            # release & kernel
+            # ----------------------------------------------------------------------
+            c_y, c_x = 0, 0
+            lsb = info.lsb()
+            stdscr.addstr(c_y, c_x, lsb, curses.color_pair(2))
 
-        # cpu
-        # ----------------------------------------------------------------------
-        c_y, c_x = c_y + 2, 0
-        stdscr.addstr(c_y, c_x, 'CPU', curses.color_pair(2) | curses.A_BOLD)
-        cpu = info.cpu()
-        i = c_y + 1
-        for item in cpu:
-            c_y, c_x = i, 0
-            add_unit(stdscr, c_y, c_x, item, item['name'], 'cpu')
-            i = i + 1
+            # uptime & load average
+            # ----------------------------------------------------------------------
+            c_y, c_x = 1, 0
+            upt = info.upt()
+            stdscr.addstr(c_y, c_x, upt, curses.color_pair(3))
 
-        # ram
-        # ----------------------------------------------------------------------
-        c_y, c_x = i + 1, 0
-        stdscr.addstr(c_y, c_x, 'RAM', curses.color_pair(2) | curses.A_BOLD)
+            # cpu
+            # ----------------------------------------------------------------------
+            c_y, c_x = c_y + 2, 0
+            stdscr.addstr(c_y, c_x, 'CPU', curses.color_pair(2) | curses.A_BOLD)
+            cpu = info.cpu()
+            i = c_y + 1
+            for item in cpu:
+                c_y, c_x = i, 0
+                add_unit(stdscr, c_y, c_x, item, item['name'], 'cpu')
+                i = i + 1
 
-        c_y, c_x = c_y + 1, 0
-        mem = info.mem()
-        add_unit(stdscr, c_y, c_x, mem, 'memory', 'ram')
+            # ram
+            # ----------------------------------------------------------------------
+            c_y, c_x = i + 1, 0
+            stdscr.addstr(c_y, c_x, 'RAM', curses.color_pair(2) | curses.A_BOLD)
 
-        c_y, c_x = c_y + 1, 0
-        swp = info.swp()
-        add_unit(stdscr, c_y, c_x, swp, 'swap', 'ram')
+            c_y, c_x = c_y + 1, 0
+            mem = info.mem()
+            add_unit(stdscr, c_y, c_x, mem, 'memory', 'ram')
 
-        # hdd
-        # ----------------------------------------------------------------------
-        c_y, c_x = c_y + 2, 0
-        stdscr.addstr(c_y, c_x, 'HDD', curses.color_pair(2) | curses.A_BOLD)
+            c_y, c_x = c_y + 1, 0
+            swp = info.swp()
+            add_unit(stdscr, c_y, c_x, swp, 'swap', 'ram')
 
-        hdd = info.hdd()
-        j = c_y + 1
-        for item in hdd:
-            c_y, c_x = j, 0
-            add_unit(stdscr, c_y, c_x, item, item['name'], 'hdd')
-            j = j + 1
+            # hdd
+            # ----------------------------------------------------------------------
+            c_y, c_x = c_y + 2, 0
+            stdscr.addstr(c_y, c_x, 'HDD', curses.color_pair(2) | curses.A_BOLD)
 
-        # bottom info
-        # ----------------------------------------------------------------------
-        bottom_info = "Press 'q' to exit"
-        stdscr.attron(curses.color_pair(1))
-        stdscr.addstr(height - 1, 0, bottom_info)
-        stdscr.addstr(height - 1, len(bottom_info), " " * (width - len(bottom_info) - 1))
-        stdscr.attroff(curses.color_pair(1))
+            hdd = info.hdd()
+            j = c_y + 1
+            for item in hdd:
+                c_y, c_x = j, 0
+                add_unit(stdscr, c_y, c_x, item, item['name'], 'hdd')
+                j = j + 1
+
+            # bottom info
+            # ----------------------------------------------------------------------
+            bottom_info = "Press 'q' to exit"
+            stdscr.attron(curses.color_pair(1))
+            stdscr.addstr(height - 1, 0, bottom_info)
+            stdscr.addstr(height - 1, len(bottom_info), " " * (width - len(bottom_info) - 1))
+            stdscr.attroff(curses.color_pair(1))
 
         stdscr.timeout(1000) # 1 sec.
         stdscr.refresh()
