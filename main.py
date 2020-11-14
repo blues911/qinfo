@@ -7,14 +7,6 @@ import info
 
 
 # TODO: check small screen size
-# TODO: remove after testing
-# print(info.cpu())
-# print(info.mem())
-# print(info.swp())
-# print(info.hdd())
-# print(info.upt())
-# print(info.lsb())
-# sys.exit(0)
 
 def add_unit(stdscr, c_y, c_x, u_data, u_title, u_type):
     # Example:
@@ -141,7 +133,7 @@ def main(stdscr):
 
         # bottom info
         # ----------------------------------------------------------------------
-        bottom_info = "press 'q' to exit"
+        bottom_info = "Press 'q' to exit"
         stdscr.attron(curses.color_pair(1))
         stdscr.addstr(height - 1, 0, bottom_info)
         stdscr.addstr(height - 1, len(bottom_info), " " * (width - len(bottom_info) - 1))
