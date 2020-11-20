@@ -8,8 +8,8 @@ import info
 
 def add_unit(stdscr, c_y, c_x, u_data, u_title, u_type):
     # Example:
-    # unit1  [+++----------------------] 15%  1.8G/11.7G
-    # unit2  [-------------------------] 0%   0K/22.9G
+    # unit1  [=========================] 15%  1.8G/11.7G
+    # unit2  [=========================] 0%   0K/22.9G
 
     if u_type == 'cpu':
         # title
