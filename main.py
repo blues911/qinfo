@@ -8,8 +8,8 @@ import info
 
 def add_unit(stdscr, c_y, c_x, u_data, u_title, u_type):
     # Example:
-    # unit1  [+++----------------------] 15%  1.8Gb/11.7Gb
-    # unit2  [-------------------------] 0%   0Gb/22.9Gb
+    # unit1  [+++----------------------] 15%  1.8G/11.7G
+    # unit2  [-------------------------] 0%   0K/22.9G
 
     if u_type == 'cpu':
         # title
@@ -56,10 +56,10 @@ def add_unit(stdscr, c_y, c_x, u_data, u_title, u_type):
         stdscr.addstr(c_y, c_x, str(perc) + '%', curses.color_pair(4))
         # used
         c_x = c_x + 5
-        stdscr.addstr(c_y, c_x, u_data['used'] + 'G', curses.color_pair(3))
+        stdscr.addstr(c_y, c_x, u_data['used'] + u_data['used_f'], curses.color_pair(3))
         # size
-        c_x = c_x + len(u_data['used'] + 'G')
-        stdscr.addstr(c_y, c_x, '/' + u_data['size'] + 'G', curses.color_pair(3))
+        c_x = c_x + len(u_data['used'] + u_data['used_f'])
+        stdscr.addstr(c_y, c_x, '/' + u_data['size'] + u_data['size_f'], curses.color_pair(3))
 
 def main(stdscr):
     k = 0

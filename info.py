@@ -4,14 +4,19 @@ import time
 import subprocess
 
 
-def __bytes_to(bytes, to, b_size = 1024):
-    a = {'k': 1, 'm': 2, 'g': 3, 't': 4, 'p': 5, 'e': 6}
-    r = float(bytes)
+def __bytes_to_human(bytes, format=None):
+    keys = ('B','K','M','G','T','P','E')
+    size = float(bytes)
 
-    for i in range(a[to]):
-        r = r / b_size
+    i = 1
+    while size >= 1024:
+        size = size / 1024
+        i = i + 1
 
-    return r
+    if format != None:
+        size = format % size
+
+    return size, keys[i]
 
 def cpu():
     # https://supportcenter.checkpoint.com/supportcenter/portal?eventSubmit_doGoviewsolutiondetails=&solutionid=sk65143
@@ -59,11 +64,8 @@ def mem():
     info = subprocess.check_output('free | grep -i mem', shell=True)
     info = ' '.join(re.sub('Mem:', '', info).split()).split(' ')
 
-    size = __bytes_to(int(info[0]) * 1024, 'g')
-    used = __bytes_to(int(info[1]) * 1024, 'g')
-
-    resp['size'] = "%.1f" % size if int(size) > 0 else str(0)
-    resp['used'] = "%.1f" % used if int(used) > 0 else str(0)
+    resp['size'], resp['size_f'] = __bytes_to_human(int(info[0]), "%.1f")
+    resp['used'], resp['used_f'] = __bytes_to_human(int(info[1]), "%.1f")
 
     return resp
 
@@ -74,11 +76,8 @@ def swp():
     info = subprocess.check_output('free | grep -i swap', shell=True)
     info = ' '.join(re.sub('Swap:', '', info).split()).split(' ')
 
-    size = __bytes_to(int(info[0]) * 1024, 'g')
-    used = __bytes_to(int(info[1]) * 1024, 'g')
-
-    resp['size'] = "%.1f" % size if int(size) > 0 else str(0)
-    resp['used'] = "%.1f" % used if int(used) > 0 else str(0)
+    resp['size'], resp['size_f'] = __bytes_to_human(int(info[0]), "%.1f")
+    resp['used'], resp['used_f'] = __bytes_to_human(int(info[1]), "%.1f")
 
     return resp
 
@@ -91,13 +90,11 @@ def hdd():
         line = ' '.join(line.split()).split(' ')
 
         r = {}
-    
-        size = __bytes_to(int(line[1]) * 1024, 'g')
-        used = __bytes_to(int(line[2]) * 1024, 'g')
+
+        r['size'], r['size_f'] = __bytes_to_human(int(line[1]), "%.0f")
+        r['used'], r['used_f'] = __bytes_to_human(int(line[2]), "%.0f")
 
         r['name'] = line[5]
-        r['size'] = "%.0f" % size if int(size) > 0 else str(0)
-        r['used'] = "%.0f" % used if int(used) > 0 else str(0)
 
         resp.append(r)
 
@@ -105,7 +102,7 @@ def hdd():
 
 def upt():
     info = subprocess.check_output('uptime', shell=True)
-    info = ' '.join(re.sub(r'[0-9+] user,', '', info).split())
+    info = ' '.join(re.sub(r'[0-9+] users?,', '', info).split())
 
     return info
 
