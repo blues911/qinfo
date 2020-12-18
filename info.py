@@ -107,7 +107,7 @@ def upt():
     return info
 
 def lsb():
-    file_path = '.lsb_release'
+    file_path = os.path.dirname(__file__) + '/.lsb_release'
 
     if os.path.isfile(file_path) == False:
         # release
