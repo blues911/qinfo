@@ -6,6 +6,9 @@ import curses
 import info
 
 
+# Use for debug purposes.
+# info.debug()
+
 def add_unit(stdscr, c_y, c_x, u_data, u_title, u_type):
     # Example:
     # unit1  [=========================] 15%  1.8G/11.7G

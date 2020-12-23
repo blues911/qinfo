@@ -1,4 +1,5 @@
 import os
+import sys
 import re
 import time
 import subprocess
@@ -17,6 +18,38 @@ def __bytes_to_human(bytes, format=None):
         size = format % size
 
     return size, keys[i]
+
+def debug(value=None):
+    exec_func = ('cpu','mem','swp','hdd','upt','lsb')
+
+    if value is None:
+        print(cpu()) # [{'used': '4', 'name': 'core1'}, {'used': '6', 'name': 'core2'}]
+        print(mem()) # {'size_f': 'G', 'used': '2.9', 'used_f': 'G', 'size': '11.7'}
+        print(swp()) # {'size_f': 'G', 'used': '0.0', 'used_f': 'K', 'size': '22.9'}
+        print(hdd()) # [{'size_f': 'G', 'used': '18', 'name': '/', 'used_f': 'G', 'size': '182'}]
+        print(upt()) # 16:06:35 up 6:00, load average: 0.50, 0.46, 0.53
+        print(lsb()) # Ubuntu 18.04 x86_64, Linux 5.3.0-59-generic
+
+    else:
+        values = value.split(',') # cpu,mem...
+        values = [v.strip() for v in values]
+
+        for v in values:
+            if v in exec_func:
+                print(eval(v + '()'))
+
+    sys.exit(0)
+
+"""
+Collection of functions with system information.
+
+cpu - CPU
+mem - RAM
+swp - Swap
+hdd - HDD
+upt - Uptime + Load average
+lsb - Distribution release + Kernel version
+"""
 
 def cpu():
     # https://supportcenter.checkpoint.com/supportcenter/portal?eventSubmit_doGoviewsolutiondetails=&solutionid=sk65143
