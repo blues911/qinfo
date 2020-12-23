@@ -1,13 +1,17 @@
 #! /usr/bin/python
 
 import sys
+import signal
 import curses
 
 import info
 
 
-# Use for debug purposes.
+# use for debug purpose
 # info.debug()
+
+# traceback Ctrl-C
+signal.signal(signal.SIGINT, lambda x,y: sys.exit(0))
 
 def add_unit(stdscr, c_y, c_x, u_data, u_title, u_type):
     # Example:
