@@ -80,8 +80,8 @@ def main(stdscr):
     curses.start_color()
     curses.init_pair(1, 0,  2) # bottom help info
     curses.init_pair(2, 2, -1) # CPU, RAM, HDD title
-    curses.init_pair(3, 8, -1) # status bar '-'
-    curses.init_pair(4, 2, -1) # status bar '+'
+    curses.init_pair(3, 8, -1) # status bar (free)
+    curses.init_pair(4, 2, -1) # status bar (used)
 
     while (k != ord('q')):
 
@@ -96,19 +96,19 @@ def main(stdscr):
 
         else:
             # release & kernel
-            # ----------------------------------------------------------------------
+            # ------------------------------------------------------------------
             c_y, c_x = 0, 0
             lsb = info.lsb()
             stdscr.addstr(c_y, c_x, lsb, curses.color_pair(2))
 
             # uptime & load average
-            # ----------------------------------------------------------------------
+            # ------------------------------------------------------------------
             c_y, c_x = 1, 0
             upt = info.upt()
             stdscr.addstr(c_y, c_x, upt, curses.color_pair(3))
 
             # cpu
-            # ----------------------------------------------------------------------
+            # ------------------------------------------------------------------
             c_y, c_x = c_y + 2, 0
             stdscr.addstr(c_y, c_x, 'CPU', curses.color_pair(2) | curses.A_BOLD)
             cpu = info.cpu()
@@ -119,7 +119,7 @@ def main(stdscr):
                 i = i + 1
 
             # ram
-            # ----------------------------------------------------------------------
+            # ------------------------------------------------------------------
             c_y, c_x = i + 1, 0
             stdscr.addstr(c_y, c_x, 'RAM', curses.color_pair(2) | curses.A_BOLD)
 
@@ -132,7 +132,7 @@ def main(stdscr):
             add_unit(stdscr, c_y, c_x, swp, 'swap', 'ram')
 
             # hdd
-            # ----------------------------------------------------------------------
+            # ------------------------------------------------------------------
             c_y, c_x = c_y + 2, 0
             stdscr.addstr(c_y, c_x, 'HDD', curses.color_pair(2) | curses.A_BOLD)
 
@@ -144,7 +144,7 @@ def main(stdscr):
                 j = j + 1
 
             # bottom info
-            # ----------------------------------------------------------------------
+            # ------------------------------------------------------------------
             bottom_info = "Press 'q' to exit"
             stdscr.attron(curses.color_pair(1))
             stdscr.addstr(height - 1, 0, bottom_info)
