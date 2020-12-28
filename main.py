@@ -7,9 +7,6 @@ import curses
 import info
 
 
-# use for debug purpose
-# info.debug()
-
 # traceback Ctrl-C
 signal.signal(signal.SIGINT, lambda x,y: sys.exit(0))
 
@@ -90,7 +87,7 @@ def main(stdscr):
 
         if height < 20 or width < 60:
             # catch small screen
-            title = 'TERMINAL TO SAMLL'
+            title = 'TERMINAL TO SMALL'
             c_y, c_x = int((height // 2) - 1), int((width // 2) - (len(title) // 2) - len(title) % 2)
             stdscr.addstr(c_y, c_x, title, curses.color_pair(2))
 
