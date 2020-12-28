@@ -1,3 +1,5 @@
+import sys
+
 import info
 
 
@@ -22,4 +24,10 @@ def debug(value=None):
 
 
 if __name__ == "__main__":
-    debug()
+
+    if len(sys.argv) == 2:
+        # Handle cli arguments.
+        # Example: python debug.py cpu,mem
+        debug(sys.argv[1])
+    else:
+        debug()
