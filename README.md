@@ -17,8 +17,8 @@ Available stat:
 
 ## Install
 <pre>
-$ git clone https://github.com/smokehill/qinfo.git
-$ cd qinfo/
-$ make install
-$ qinfo
+git clone https://github.com/smokehill/qinfo.git
+cd qinfo/
+make install
+qinfo
 </pre>
