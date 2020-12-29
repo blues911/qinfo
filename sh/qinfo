@@ -1,4 +1,8 @@
 #!/bin/bash
 
-env=$(which python)
-$env /usr/local/qinfo/main.py
+if [ ! -d ~/.cache/qinfo ]; then
+    mkdir ~/.cache/qinfo
+    chmod 775 ~/.cache/qinfo
+fi
+
+$(which python) /usr/local/qinfo/main.py

@@ -25,7 +25,5 @@ fi
 
 echo "Installing..."
 cp -r ./qinfo /usr/local/qinfo
-mkdir /usr/local/qinfo/cache
-chmod 777 /usr/local/qinfo/cache
 cp ./sh/qinfo /usr/local/bin/qinfo
 echo "OK"
