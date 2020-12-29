@@ -2,7 +2,7 @@
 
 Displays simple system information (in real time) based on general Linux commands.
 
-Available stat:
+Available data:
 - Distribution release
 - Kernel version
 - Uptime
@@ -11,14 +11,15 @@ Available stat:
 - RAM
 - HDD
 
-## Example
-
-![](example.jpg)
-
 ## Install
+
 <pre>
 git clone https://github.com/smokehill/qinfo.git
 cd qinfo/
 make install
 qinfo
 </pre>
+
+## Example
+
+![](example.jpg)
