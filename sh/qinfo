@@ -1,0 +1,4 @@
+#!/bin/bash
+
+env=$(which python)
+$env /usr/local/qinfo/main.py
