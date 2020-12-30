@@ -15,4 +15,4 @@ echo "Uninstalling..."
 rm -f /usr/local/bin/qinfo
 rm -rf /usr/local/qinfo
 rm -rf ~/.cache/qinfo
-echo "OK"
+echo "Ok"
