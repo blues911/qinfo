@@ -4,7 +4,7 @@ import sys
 import signal
 import curses
 
-import info
+import sysinfo
 
 
 # traceback Ctrl-C
@@ -76,7 +76,7 @@ def main(stdscr):
 
     curses.start_color()
     curses.init_pair(1, 0,  2) # bottom help info
-    curses.init_pair(2, 2, -1) # CPU, RAM, HDD title
+    curses.init_pair(2, 2, -1) # cpu, ram, hdd title
     curses.init_pair(3, 8, -1) # status bar (free)
     curses.init_pair(4, 2, -1) # status bar (used)
 
@@ -95,20 +95,20 @@ def main(stdscr):
             # release & kernel
             # ------------------------------------------------------------------
             c_y, c_x = 0, 0
-            lsb = info.lsb()
+            lsb = sysinfo.lsb()
             stdscr.addstr(c_y, c_x, lsb, curses.color_pair(2))
 
             # uptime & load average
             # ------------------------------------------------------------------
             c_y, c_x = 1, 0
-            upt = info.upt()
+            upt = sysinfo.upt()
             stdscr.addstr(c_y, c_x, upt, curses.color_pair(3))
 
             # cpu
             # ------------------------------------------------------------------
             c_y, c_x = c_y + 2, 0
             stdscr.addstr(c_y, c_x, 'CPU', curses.color_pair(2) | curses.A_BOLD)
-            cpu = info.cpu()
+            cpu = sysinfo.cpu()
             i = c_y + 1
             for item in cpu:
                 c_y, c_x = i, 0
@@ -121,11 +121,11 @@ def main(stdscr):
             stdscr.addstr(c_y, c_x, 'RAM', curses.color_pair(2) | curses.A_BOLD)
 
             c_y, c_x = c_y + 1, 0
-            mem = info.mem()
+            mem = sysinfo.mem()
             add_unit(stdscr, c_y, c_x, mem, 'memory', 'ram')
 
             c_y, c_x = c_y + 1, 0
-            swp = info.swp()
+            swp = sysinfo.swp()
             add_unit(stdscr, c_y, c_x, swp, 'swap', 'ram')
 
             # hdd
@@ -133,14 +133,14 @@ def main(stdscr):
             c_y, c_x = c_y + 2, 0
             stdscr.addstr(c_y, c_x, 'HDD', curses.color_pair(2) | curses.A_BOLD)
 
-            hdd = info.hdd()
+            hdd = sysinfo.hdd()
             j = c_y + 1
             for item in hdd:
                 c_y, c_x = j, 0
                 add_unit(stdscr, c_y, c_x, item, item['name'], 'hdd')
                 j = j + 1
 
-            # bottom info
+            # bottom help info
             # ------------------------------------------------------------------
             bottom_info = "Press 'q' to exit"
             stdscr.attron(curses.color_pair(1))
