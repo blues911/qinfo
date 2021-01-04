@@ -19,36 +19,25 @@ def __bytes_to_human(bytes, format=None):
 
     return size, keys[i]
 
-"""
-Collection of functions with system information.
-
-cpu - CPU
-mem - RAM
-swp - Swap
-hdd - HDD
-upt - Uptime + Load average
-lsb - Distribution release + Kernel version
-"""
-
 def cpu():
     # https://supportcenter.checkpoint.com/supportcenter/portal?eventSubmit_doGoviewsolutiondetails=&solutionid=sk65143
     # https://rosettacode.org/wiki/Linux_CPU_utilization
     resp = []
 
-    info = subprocess.check_output('cat /proc/stat | grep -i cpu[0-9+]', shell=True)
+    info = subprocess.check_output('cat /proc/stat | grep -i cpu', shell=True)
     old_info = []
     for line in info.splitlines():
-        line = ' '.join(re.sub(r'cpu[0-9+]', '', line).split()).split(' ')
+        line = ' '.join(re.sub('cpu[0-9+]?', '', line).split()).split(' ')
         line = [float(l) for l in line]
 
         old_info.append([line[3], sum(line)])
 
     time.sleep(0.5)
 
-    info = subprocess.check_output('cat /proc/stat | grep -i cpu[0-9+]', shell=True)
+    info = subprocess.check_output('cat /proc/stat | grep -i cpu', shell=True)
     i = 0
     for line in info.splitlines():
-        line = ' '.join(re.sub(r'cpu[0-9+]', '', line).split()).split(' ')
+        line = ' '.join(re.sub('cpu[0-9+]?', '', line).split()).split(' ')
         line = [float(l) for l in line]
 
         idle, total = line[3], sum(line)
@@ -61,7 +50,7 @@ def cpu():
             utilisation = 0.0
 
         r = {}
-        r['name'] = 'core' + str(i + 1)
+        r['name'] = 'core' + str(i) if i > 0 else 'total'
         r['used'] = "%.0f" % utilisation
 
         resp.append(r)
@@ -72,7 +61,6 @@ def cpu():
 def mem():
     resp = {}
 
-    # expected: [total, used, free, shared, buff/cache, available]
     info = subprocess.check_output('free | grep -i mem', shell=True)
     info = ' '.join(re.sub('Mem:', '', info).split()).split(' ')
 
@@ -84,7 +72,6 @@ def mem():
 def swp():
     resp = {}
 
-    # expected: [total, used, free, shared, buff/cache, available]
     info = subprocess.check_output('free | grep -i swap', shell=True)
     info = ' '.join(re.sub('Swap:', '', info).split()).split(' ')
 
@@ -96,7 +83,6 @@ def swp():
 def hdd():
     resp = []
 
-    # expected: [filesystem, size, used, available, use%, mounted on]
     info = subprocess.check_output('df | grep \'sda\'', shell=True)
     for line in info.splitlines():
         line = ' '.join(line.split()).split(' ')

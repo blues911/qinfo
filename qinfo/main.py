@@ -11,10 +11,6 @@ import sysinfo
 signal.signal(signal.SIGINT, lambda x,y: sys.exit(0))
 
 def add_unit(stdscr, c_y, c_x, u_data, u_title, u_type):
-    # Example:
-    # unit1  [=========================] 15%  1.8G/11.7G
-    # unit2  [=========================] 0%   0K/22.9G
-
     if u_type == 'cpu':
         # title
         stdscr.addstr(c_y, c_x, u_title)
@@ -27,17 +23,17 @@ def add_unit(stdscr, c_y, c_x, u_data, u_title, u_type):
         st_bar_used = (st_bar_len * perc) / 100
         st_bar_free = st_bar_len - st_bar_used
         if st_bar_used == 0:
-            stdscr.addstr(c_y, c_x, '=' * st_bar_free, curses.color_pair(3) | curses.A_BOLD)
+            stdscr.addstr(c_y, c_x, '=' * st_bar_free, curses.color_pair(2) | curses.A_BOLD)
         else:
-            stdscr.addstr(c_y, c_x, '=' * st_bar_used, curses.color_pair(4) | curses.A_BOLD)
-            stdscr.addstr(c_y, c_x + st_bar_used, '=' * st_bar_free, curses.color_pair(3) | curses.A_BOLD)
+            stdscr.addstr(c_y, c_x, '=' * st_bar_used, curses.color_pair(3) | curses.A_BOLD)
+            stdscr.addstr(c_y, c_x + st_bar_used, '=' * st_bar_free, curses.color_pair(2) | curses.A_BOLD)
         c_x = c_x + st_bar_len
         stdscr.addstr(c_y, c_x, ']')
         # used %
         c_x = c_x + 2
-        stdscr.addstr(c_y, c_x, str(perc) + '%', curses.color_pair(4))
+        stdscr.addstr(c_y, c_x, str(perc) + '%', curses.color_pair(3))
 
-    if u_type == 'ram' or u_type == 'hdd':
+    if u_type in ('ram','hdd'):
         # title
         stdscr.addstr(c_y, c_x, u_title)
         # status bar
@@ -49,21 +45,21 @@ def add_unit(stdscr, c_y, c_x, u_data, u_title, u_type):
         st_bar_used = (st_bar_len * perc) / 100
         st_bar_free = st_bar_len - st_bar_used
         if st_bar_used == 0:
-            stdscr.addstr(c_y, c_x, '=' * st_bar_free, curses.color_pair(3) | curses.A_BOLD)
+            stdscr.addstr(c_y, c_x, '=' * st_bar_free, curses.color_pair(2) | curses.A_BOLD)
         else:
-            stdscr.addstr(c_y, c_x, '=' * st_bar_used, curses.color_pair(4) | curses.A_BOLD)
-            stdscr.addstr(c_y, c_x + st_bar_used, '=' * st_bar_free, curses.color_pair(3) | curses.A_BOLD)
+            stdscr.addstr(c_y, c_x, '=' * st_bar_used, curses.color_pair(3) | curses.A_BOLD)
+            stdscr.addstr(c_y, c_x + st_bar_used, '=' * st_bar_free, curses.color_pair(2) | curses.A_BOLD)
         c_x = c_x + st_bar_len
         stdscr.addstr(c_y, c_x, ']')
         # used %
         c_x = c_x + 2
-        stdscr.addstr(c_y, c_x, str(perc) + '%', curses.color_pair(4))
+        stdscr.addstr(c_y, c_x, str(perc) + '%', curses.color_pair(3))
         # used
         c_x = c_x + 5
-        stdscr.addstr(c_y, c_x, u_data['used'] + u_data['used_f'], curses.color_pair(3))
+        stdscr.addstr(c_y, c_x, u_data['used'] + u_data['used_f'], curses.color_pair(2))
         # size
         c_x = c_x + len(u_data['used'] + u_data['used_f'])
-        stdscr.addstr(c_y, c_x, '/' + u_data['size'] + u_data['size_f'], curses.color_pair(3))
+        stdscr.addstr(c_y, c_x, '/' + u_data['size'] + u_data['size_f'], curses.color_pair(2))
 
 def main(stdscr):
     k = 0
@@ -75,10 +71,9 @@ def main(stdscr):
     curses.use_default_colors()
 
     curses.start_color()
-    curses.init_pair(1, 0,  2) # bottom help info
-    curses.init_pair(2, 2, -1) # cpu, ram, hdd title
-    curses.init_pair(3, 8, -1) # status bar (free)
-    curses.init_pair(4, 2, -1) # status bar (used)
+    curses.init_pair(1, 0,  2) # bottom info
+    curses.init_pair(2, 8, -1) # status bar (free)
+    curses.init_pair(3, 2, -1) # status bar (used)
 
     while (k != ord('q')):
 
@@ -89,26 +84,30 @@ def main(stdscr):
             # catch small screen
             title = 'TERMINAL TO SMALL'
             c_y, c_x = int((height // 2) - 1), int((width // 2) - (len(title) // 2) - len(title) % 2)
-            stdscr.addstr(c_y, c_x, title, curses.color_pair(2))
+            stdscr.addstr(c_y, c_x, title, curses.color_pair(3))
 
         else:
-            # release & kernel
+            # release, kernel
             # ------------------------------------------------------------------
-            c_y, c_x = 0, 0
             lsb = sysinfo.lsb()
-            stdscr.addstr(c_y, c_x, lsb, curses.color_pair(2))
 
-            # uptime & load average
+            c_y, c_x = 0, 0
+            stdscr.addstr(c_y, c_x, lsb, curses.color_pair(3))
+
+            # uptime, load average
             # ------------------------------------------------------------------
-            c_y, c_x = 1, 0
             upt = sysinfo.upt()
-            stdscr.addstr(c_y, c_x, upt, curses.color_pair(3))
+
+            c_y, c_x = 1, 0
+            stdscr.addstr(c_y, c_x, upt, curses.color_pair(2))
 
             # cpu
             # ------------------------------------------------------------------
-            c_y, c_x = c_y + 2, 0
-            stdscr.addstr(c_y, c_x, 'CPU', curses.color_pair(2) | curses.A_BOLD)
             cpu = sysinfo.cpu()
+
+            c_y, c_x = c_y + 2, 0
+            stdscr.addstr(c_y, c_x, 'CPU', curses.color_pair(3) | curses.A_BOLD)
+
             i = c_y + 1
             for item in cpu:
                 c_y, c_x = i, 0
@@ -117,30 +116,32 @@ def main(stdscr):
 
             # ram
             # ------------------------------------------------------------------
+            mem = sysinfo.mem()
+            swp = sysinfo.swp()
+
             c_y, c_x = i + 1, 0
-            stdscr.addstr(c_y, c_x, 'RAM', curses.color_pair(2) | curses.A_BOLD)
+            stdscr.addstr(c_y, c_x, 'RAM', curses.color_pair(3) | curses.A_BOLD)
 
             c_y, c_x = c_y + 1, 0
-            mem = sysinfo.mem()
             add_unit(stdscr, c_y, c_x, mem, 'memory', 'ram')
 
             c_y, c_x = c_y + 1, 0
-            swp = sysinfo.swp()
             add_unit(stdscr, c_y, c_x, swp, 'swap', 'ram')
 
             # hdd
             # ------------------------------------------------------------------
-            c_y, c_x = c_y + 2, 0
-            stdscr.addstr(c_y, c_x, 'HDD', curses.color_pair(2) | curses.A_BOLD)
-
             hdd = sysinfo.hdd()
+
+            c_y, c_x = c_y + 2, 0
+            stdscr.addstr(c_y, c_x, 'HDD', curses.color_pair(3) | curses.A_BOLD)
+
             j = c_y + 1
             for item in hdd:
                 c_y, c_x = j, 0
                 add_unit(stdscr, c_y, c_x, item, item['name'], 'hdd')
                 j = j + 1
 
-            # bottom help info
+            # bottom info
             # ------------------------------------------------------------------
             bottom_info = "Press 'q' to exit"
             stdscr.attron(curses.color_pair(1))
