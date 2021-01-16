@@ -11,7 +11,17 @@ Available data:
 - RAM
 - HDD
 
+Tested only on Debian/Ubuntu OS.
+
 ![](example.jpg)
+
+## Dependencies
+
+```
+python
+procps
+lsb-release
+```
 
 ## Install
 

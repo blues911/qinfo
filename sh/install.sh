@@ -23,6 +23,26 @@ if [[ "$(which python)" == "" ]]; then
     echo "Error: python not found"
 fi
 
+if [[ "$(which free)" == "" ]]; then
+    fail=$((fail + 1))
+    echo "Error: free not found"
+fi
+
+if [[ "$(which df)" == "" ]]; then
+    fail=$((fail + 1))
+    echo "Error: df not found"
+fi
+
+if [[ "$(which uptime)" == "" ]]; then
+    fail=$((fail + 1))
+    echo "Error: uptime not found"
+fi
+
+if [[ "$(which lsb_release)" == "" ]]; then
+    fail=$((fail + 1))
+    echo "Error: lsb_release not found"
+fi
+
 if [ ! -d ~/.cache ]; then
     fail=$((fail + 1))
     echo "Error: ~/.cache dir not exists"
