@@ -23,6 +23,11 @@ if [[ "$(which python)" == "" ]]; then
     echo "Error: python not found"
 fi
 
+if [ ! -d ~/.cache ]; then
+    fail=$((fail + 1))
+    echo "Error: ~/.cache dir not exists"
+fi
+
 if [[ $fail > 0 ]]; then
     exit 1
 fi
