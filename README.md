@@ -1,6 +1,8 @@
 # qinfo
 
-Displays simple system information (in real time) based on general Linux commands.
+[![Build Status](https://travis-ci.com/smokehill/qinfo.svg?branch=master)](https://travis-ci.com/smokehill/qinfo)
+
+Displays system information based on Linux processes.
 
 Available data:
 - Distribution release
