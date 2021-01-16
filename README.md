@@ -1,6 +1,7 @@
 # qinfo
 
 [![Build Status](https://travis-ci.com/smokehill/qinfo.svg?branch=master)](https://travis-ci.com/smokehill/qinfo)
+![os](https://img.shields.io/badge/os-linux-green)
 
 Displays system information based on Linux processes.
 
