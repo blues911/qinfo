@@ -23,7 +23,6 @@ Tested only on Debian/Ubuntu OS.
 ```
 python
 procps
-lsb-release
 ```
 
 ## Install

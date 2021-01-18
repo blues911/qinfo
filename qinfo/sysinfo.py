@@ -104,13 +104,13 @@ def upt():
 
     return info
 
-def lsb():
-    file_path = os.path.expanduser('~') + '/.cache/qinfo/lsb_release'
+def rel():
+    file_path = os.path.expanduser('~') + '/.cache/qinfo/.rel'
 
     if os.path.isfile(file_path) == False:
         # release
-        info1 = subprocess.check_output('lsb_release -i -r', shell=True)
-        info1 = [''.join(line.split(':')[1].split()) for line in info1.splitlines()]
+        info1 = subprocess.check_output('cat /etc/os-release | grep -i "^name\|^version_id"', shell=True)
+        info1 = [''.join(line.split('=')[1].replace('"', '').split()) for line in info1.splitlines()]
         info1 = ' '.join(info1)
 
         # architecture
@@ -132,3 +132,6 @@ def lsb():
     else:
         f = open(file_path, 'r')
         return f.readline()
+
+
+    return info1

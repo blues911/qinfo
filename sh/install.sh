@@ -38,11 +38,6 @@ if [[ "$(which uptime)" == "" ]]; then
     echo "Error: uptime not found"
 fi
 
-if [[ "$(which lsb_release)" == "" ]]; then
-    fail=$((fail + 1))
-    echo "Error: lsb_release not found"
-fi
-
 if [ ! -d ~/.cache ]; then
     fail=$((fail + 1))
     echo "Error: ~/.cache dir not exists"

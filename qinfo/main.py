@@ -111,10 +111,10 @@ def main(stdscr):
         else:
             # release, kernel
             # ------------------------------------------------------------------
-            lsb = sysinfo.lsb()
+            rel = sysinfo.rel()
 
             c_y, c_x = 0, 0
-            stdscr.addstr(c_y, c_x, lsb, curses.color_pair(2))
+            stdscr.addstr(c_y, c_x, rel, curses.color_pair(2))
 
             # uptime, load average
             # ------------------------------------------------------------------
