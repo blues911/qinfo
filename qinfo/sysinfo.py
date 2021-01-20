@@ -88,10 +88,8 @@ def hdd():
         line = ' '.join(line.split()).split(' ')
 
         r = {}
-
         r['size'], r['size_f'] = __bytes_to_human(int(line[1]), "%.0f")
         r['used'], r['used_f'] = __bytes_to_human(int(line[2]), "%.0f")
-
         r['name'] = line[5]
 
         resp.append(r)
@@ -121,7 +119,7 @@ def rel():
         info3 = subprocess.check_output('uname -s -r', shell=True)
         info3 = info3.rstrip()
 
-        info_all = info1 + ' ' + info2 + ', ' + info3
+        info_all = "{0} {1}, {2}".format(info1, info2, info3)
 
         f = open(file_path, 'w')
         f.write(info_all)
@@ -132,6 +130,3 @@ def rel():
     else:
         f = open(file_path, 'r')
         return f.readline()
-
-
-    return info1
