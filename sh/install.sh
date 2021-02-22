@@ -5,26 +5,37 @@ if [ -d /usr/local/qinfo ]; then
     exit 0
 fi
 
-fail=0
-
 if [[ "$(uname)" != "Linux" ]]; then
-    fail=$((fail + 1))
     echo "Error: qinfo works only on Linux"
+    exit 1
+fi
+
+if [[ "$(whoami)" != "root" ]]; then
+    fail=$((fail + 1))
+    echo "Error: permission denied (run this script as root)"
+    exit 1
 fi
 
 if [ ! -d ~/.cache ]; then
-    fail=$((fail + 1))
     echo "Error: ~/.cache dir not exists"
-fi
-
-if [[ $fail > 0 ]]; then
     exit 1
 fi
 
 echo "Installing..."
 # install system deps
-sudo apt-get install -y build-essential procps python
+apt-get install -y procps python
 # install qinfo
-sudo cp -r ./qinfo /usr/local/qinfo
-sudo cp ./sh/qinfo /usr/local/bin/qinfo
+cp -r ./qinfo /usr/local/qinfo
+touch /usr/local/bin/qinfo
+chmod +x /usr/local/bin/qinfo
+cat << EOF > /usr/local/bin/qinfo
+#!/bin/bash
+
+if [ ! -d ~/.cache/qinfo ]; then
+    mkdir ~/.cache/qinfo
+    chmod 775 ~/.cache/qinfo
+fi
+
+$(which python) /usr/local/qinfo/main.py
+EOF
 echo "Ok"

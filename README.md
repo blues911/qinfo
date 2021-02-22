@@ -30,6 +30,6 @@ procps
 ```
 git clone https://github.com/smokehill/qinfo.git
 cd qinfo/
-make install
+sudo ./sh/install.sh
 qinfo
 ```
