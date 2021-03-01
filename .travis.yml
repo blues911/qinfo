@@ -2,9 +2,5 @@ sudo: true
 language: python
 python:
   - 2.7
-before_install:
-    - sudo apt-get update
-    - sudo apt-get install -y procps
-    - sudo mkdir -p ~/.cache
 script:
-  - sudo ./sh/install.sh
+  - pip install .

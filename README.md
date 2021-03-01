@@ -30,6 +30,5 @@ procps
 ```
 git clone https://github.com/smokehill/qinfo.git
 cd qinfo/
-sudo ./sh/install.sh
-qinfo
+pip install .
 ```

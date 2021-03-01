@@ -1,5 +1,6 @@
 #! /usr/bin/python
 
+import os
 import sys
 import signal
 import curses
@@ -19,7 +20,15 @@ colors = {
     'default': -1
 }
 
-# traceback Ctrl-C
+# create cache dir
+cache_dir = os.path.expanduser('~') + '/.cache/qinfo'
+if not os.path.isdir(cache_dir):
+    try: 
+        os.makedirs(cache_dir)
+    except OSError:
+        raise OSError(2, cache_dir + ' not exists')
+
+# traceback Ctrl+C
 signal.signal(signal.SIGINT, lambda x,y: sys.exit(0))
 
 def add_unit(stdscr, c_y, c_x, u_data, u_title, u_type):
@@ -82,7 +91,7 @@ def add_unit(stdscr, c_y, c_x, u_data, u_title, u_type):
         c_x = c_x + len(u_data['used'] + u_data['used_f'])
         stdscr.addstr(c_y, c_x, '/' + u_data['size'] + u_data['size_f'], curses.color_pair(4))
 
-def main(stdscr):
+def run(stdscr):
     k = 0
 
     stdscr.clear()
@@ -176,6 +185,5 @@ def main(stdscr):
 
         k = stdscr.getch()
 
-
-if __name__ == "__main__":
-    curses.wrapper(main)
+def main():
+    curses.wrapper(run)
