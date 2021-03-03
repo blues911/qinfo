@@ -21,7 +21,6 @@ Tested only on Debian/Ubuntu OS.
 ## Dependencies
 
 ```
-python
 procps
 ```
 
