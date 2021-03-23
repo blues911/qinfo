@@ -1,6 +1,6 @@
 # qinfo
 
-[![Build Status](https://travis-ci.com/smokehill/qinfo.svg?branch=master)](https://travis-ci.com/smokehill/qinfo)
+[![Build Status](https://travis-ci.com/blues911/qinfo.svg?branch=master)](https://travis-ci.com/blues911/qinfo)
 ![os](https://img.shields.io/badge/os-linux-green)
 
 Displays system information based on Linux processes.
@@ -27,7 +27,7 @@ procps
 ## Install
 
 ```
-git clone https://github.com/smokehill/qinfo.git
+git clone https://github.com/blues911/qinfo.git
 cd qinfo/
 pip install .
 ```
