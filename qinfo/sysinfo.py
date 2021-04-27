@@ -5,19 +5,27 @@ import time
 import subprocess
 
 
-def __bytes_to_human(bytes, format=None):
-    keys = ('B','K','M','G','T','P','E')
-    size = float(bytes)
+# def __bytes_to_human(bytes, format=None):
+#     keys = ('B','K','M','G','T','P','E')
+#     size = float(bytes)
 
-    i = 1
-    while size >= 1024:
-        size = size / 1024
-        i = i + 1
+#     i = 1
+#     while size >= 1024:
+#         size = size / 1024
+#         i = i + 1
+
+#     if format != None:
+#         size = format % size
+
+#     return size, keys[i]
+
+def __bt_to_gb(bytes, format=None):
+    size = float(bytes) / 1024 / 1024
 
     if format != None:
         size = format % size
 
-    return size, keys[i]
+    return size, 'G'
 
 def cpu():
     # https://supportcenter.checkpoint.com/supportcenter/portal?eventSubmit_doGoviewsolutiondetails=&solutionid=sk65143
@@ -64,8 +72,8 @@ def mem():
     info = subprocess.check_output('free | grep -i mem', shell=True)
     info = ' '.join(re.sub('Mem:', '', info).split()).split(' ')
 
-    resp['size'], resp['size_f'] = __bytes_to_human(int(info[0]), "%.1f")
-    resp['used'], resp['used_f'] = __bytes_to_human(int(info[1]), "%.1f")
+    resp['size'], resp['size_f'] = __bt_to_gb(int(info[0]), "%.1f")
+    resp['used'], resp['used_f'] = __bt_to_gb(int(info[1]), "%.1f")
 
     return resp
 
@@ -75,8 +83,8 @@ def swp():
     info = subprocess.check_output('free | grep -i swap', shell=True)
     info = ' '.join(re.sub('Swap:', '', info).split()).split(' ')
 
-    resp['size'], resp['size_f'] = __bytes_to_human(int(info[0]), "%.1f")
-    resp['used'], resp['used_f'] = __bytes_to_human(int(info[1]), "%.1f")
+    resp['size'], resp['size_f'] = __bt_to_gb(int(info[0]), "%.1f")
+    resp['used'], resp['used_f'] = __bt_to_gb(int(info[1]), "%.1f")
 
     return resp
 
@@ -88,8 +96,8 @@ def hdd():
         line = ' '.join(line.split()).split(' ')
 
         r = {}
-        r['size'], r['size_f'] = __bytes_to_human(int(line[1]), "%.0f")
-        r['used'], r['used_f'] = __bytes_to_human(int(line[2]), "%.0f")
+        r['size'], r['size_f'] = __bt_to_gb(int(line[1]), "%.0f")
+        r['used'], r['used_f'] = __bt_to_gb(int(line[2]), "%.0f")
         r['name'] = line[5]
 
         resp.append(r)
