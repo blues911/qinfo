@@ -111,7 +111,7 @@ def run(stdscr):
         stdscr.clear()
         height, width = stdscr.getmaxyx()
 
-        if height < 20 or width < 60:
+        if height < 18 or width < 60:
             # catch small screen
             title = 'TERMINAL TO SMALL'
             c_y, c_x = int((height // 2) - 1), int((width // 2) - (len(title) // 2) - len(title) % 2)
