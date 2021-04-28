@@ -174,11 +174,11 @@ def run(stdscr):
 
             # bottom info
             # ------------------------------------------------------------------
-            bottom_info = "Press 'q' to exit"
-            stdscr.attron(curses.color_pair(1))
-            stdscr.addstr(height - 1, 0, bottom_info)
-            stdscr.addstr(height - 1, len(bottom_info), " " * (width - len(bottom_info) - 1))
-            stdscr.attroff(curses.color_pair(1))
+            # bottom_info = "Press 'q' to exit"
+            # stdscr.attron(curses.color_pair(1))
+            # stdscr.addstr(height - 1, 0, bottom_info)
+            # stdscr.addstr(height - 1, len(bottom_info), " " * (width - len(bottom_info) - 1))
+            # stdscr.attroff(curses.color_pair(1))
 
         stdscr.timeout(1000) # 1 sec.
         stdscr.refresh()
